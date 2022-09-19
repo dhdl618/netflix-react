@@ -22,6 +22,11 @@ const MovieDetail = () => {
   console.log(movieDetails)
 
   return (
+    // <div>
+    //   {id ? <div style={{color:"white"}}>아이디 존재</div> : <div style={{color:"white"}}>아이디 없음</div>}
+    // </div>
+    
+    
     <Container className="detail-container">
       <Row>
         <Col>
