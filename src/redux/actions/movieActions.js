@@ -42,10 +42,12 @@ function getMovies() {
 function getDetailMovie(id) {
     return async(dispatch) => {
         try{
+            dispatch(movieActions.startLoadingSpinner())
             const movieDetails = await api.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`)
         
             dispatch(movieActions.getMovieDetails({movieDetails}))
-            console.log(movieDetails)
+            dispatch(movieActions.endLoadingSpinner())
+            console.log("movieActions.js",movieDetails)
             
         } catch (e) {
             dispatch(movieActions.getMoviesFailure())

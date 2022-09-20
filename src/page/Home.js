@@ -4,7 +4,7 @@ import { movieAction } from '../redux/actions/movieActions'
 import { useDispatch, useSelector } from 'react-redux/es/exports'
 import Banner from '../component/Banner'
 import MovieSlide from '../component/MovieSlide'
-import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from 'react-bootstrap/Spinner';
 
 const Home = () => {
     
@@ -22,16 +22,13 @@ const Home = () => {
 
     // console.log(popularMovies, topRatedMovies, upcomingMovies)    
 
-    const override = {
-      display: "block",
-      margin: "auto",
-      borderColor: "gray",
-    };
-
     //로딩이 true면 스피너를 보여주고 false면 데이터를 보여줌
     if(loading) {
-      return <ClipLoader color={override} loading={loading} cssOverride={override} size={100} />
-    }
+      return (
+      <div className='loading-container'>
+        <Spinner animation='border' variant='danger' className='loading' />
+      </div>
+    )}
 
   return (
     <div className='main-container'>

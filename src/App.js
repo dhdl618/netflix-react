@@ -36,7 +36,6 @@ function App() {
         <Route path="/movies" element={<Movies />}></Route>
         <Route path="/movies/:id" element={<MovieDetail />}></Route>
       </Routes>
-      
     </div>
   );
 }
