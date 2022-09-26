@@ -34,8 +34,6 @@ function getMovies() {
             dispatch(movieActions.getMoviesFailure())
             console.log("Error 발생")
         }
-        
-        
     }
 }
 
@@ -43,17 +41,26 @@ function getDetailMovie(id) {
     return async(dispatch) => {
         try{
             dispatch(movieActions.startLoadingSpinner())
-            const movieDetails = await api.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`)
-        
+            
+            const movieDetailApi = api.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`)
+            const movieReviewsApi = api.get(`/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`)
+            let data = await Promise.all([movieDetailApi, movieReviewsApi])
+            
+            let [movieDetails, movieReviews] = data
+            
             dispatch(movieActions.getMovieDetails({movieDetails}))
+            dispatch(movieActions.getMovieReviews({movieReviews}))
+            
             dispatch(movieActions.endLoadingSpinner())
             console.log("movieActions.js",movieDetails)
-            
+            console.log("리뷰", movieReviews)
+
         } catch (e) {
             dispatch(movieActions.getMoviesFailure())
             console.log("Error 발생")
         }   
     }
 }
+
 
 export const movieAction = {getMovies, getDetailMovie}

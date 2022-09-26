@@ -23,14 +23,24 @@ const responsive = {
     }
   };
 
-const MovieSlide = ({movies}) => {
+const MovieSlide = ({ movies }) => {
   return (
-    <div className='card-slide'>
-        <Carousel responsive={responsive}>
-          {movies && movies.data.results.map(item => <MovieCard item={item} style={{backgroundSize: "cover", backgroundPosition: "center, center"}}/>)}
-        </Carousel>
+    <div className="card-slide">
+      <Carousel responsive={responsive}>
+        {movies &&
+          movies.data.results.map((item, index) => (
+            <MovieCard
+              key={index}
+              item={item}
+              style={{
+                backgroundSize: "cover",
+                backgroundPosition: "center, center",
+              }}
+            />
+          ))}
+      </Carousel>
     </div>
-  )
-}
+  );
+};
 
 export default MovieSlide

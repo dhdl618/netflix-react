@@ -25,6 +25,7 @@ import Home from './page/Home'
 import Movies from './page/Movies'
 import MovieDetail from './page/MovieDetail'
 import NavBar from './component/NavBar';
+import Footer from './component/Footer';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/movies" element={<Movies />}></Route>
         <Route path="/movies/:id" element={<MovieDetail />}></Route>
       </Routes>
+      <Footer />
     </div>
   );
 }

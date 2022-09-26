@@ -28,8 +28,8 @@ const MovieCard = ({item}) => {
         <h2>{item.title}</h2>
         <div style={{ marginTop: "15px" }}>
           <div>
-            {item.genre_ids.map((id) => (
-              <Badge className='badge-style' bg="danger">
+            {item.genre_ids.map((id, index) => (
+              <Badge key={index} className='badge-style' bg="danger">
                 {genreList.find((item) => item.id === id).name}
               </Badge>
             ))}
