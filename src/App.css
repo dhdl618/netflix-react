@@ -338,6 +338,12 @@ body{
   }
 }
 
+@media (max-width: 1370px) {
+  .banner p {
+    padding-top: 250px;
+  }
+}
+
 @media (max-height: 391px) {
   .banner p {
     padding-top: 60px;
