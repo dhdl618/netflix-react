@@ -7,7 +7,8 @@ let initialState = {
     loading: true,
     genreList: [],
     movieDetails: {},
-    movieReviews: {}
+    movieReviews: {},
+    movieRelated: {}
 }
 
 const movieSlice = createSlice({
@@ -36,6 +37,9 @@ const movieSlice = createSlice({
         },
         getMovieReviews(state, action) {
             state.movieReviews = action.payload.movieReviews
+        },
+        getMovieRelated(state, action) {
+            state.movieRelated = action.payload.movieRelated
         }
     }
 })

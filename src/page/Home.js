@@ -43,7 +43,7 @@ const Home = () => {
           <MovieSlide movies={upcomingMovies} />
         </div>
       ) : (
-        <div>loading</div>
+        <div>*** 오류 발생 ***</div>
       )}
     </div>
   );

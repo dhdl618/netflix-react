@@ -1,10 +1,12 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
 import { Container, Row, Col } from "react-bootstrap";
 import { Badge } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import Reviews from "../component/Reviews";
+import MovieSlide from "../component/MovieSlide";
 // import api from "../redux/api";
 // import axios from "axios";
 
@@ -13,6 +15,12 @@ const MovieDetail = () => {
   // const [movieDetails, setMovieDetails] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [component, setComponent] = useState();
+  
+  const componentChoice = (e) => {
+    let name = e
+    setComponent(name)
+  }
 
   useEffect(() => {
     // const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
@@ -23,13 +31,19 @@ const MovieDetail = () => {
     dispatch(movieAction.getDetailMovie(id))
   }, [id]);
 
-  console.log(id);
+  // console.log(id);
 
-  const { movieDetails, movieReviews, loading } = useSelector((state) => state.movies);
+  const { movieDetails, movieReviews, movieRelated, loading } = useSelector((state) => state.movies);
   // const movieDetails = state.movies.movieDetails
   // const loading = state.movies.loading;
 
-  console.log("movieDetail.jsx", movieDetails);
+  // 버튼 클릭 시, 보여주는 컴포넌트
+  const selectComponent = {
+    review: <Reviews movieReviews={movieReviews} />,
+    related: <MovieSlide movies={movieRelated}/>  //관련 영화도 Home의 슬라이드랑 같게 구현
+  }
+ 
+  // console.log("movieDetail.jsx", movieDetails);
 
   if (loading) {
     return (
@@ -39,24 +53,23 @@ const MovieDetail = () => {
     );
   }
 
-  const hi = () => {
-    console.log("HI")
-  }
-
   return (
     <div>
       {movieDetails.data ? (
         <Container className="detail-container">
           <Row>
-            <Col>
+            <Col lg={6} className="poster-area">
               <div
                 className="poster"
-                style={{
+                style={movieDetails.data.poster_path ? {
                   backgroundImage:
                     "url(" +
                     `https://www.themoviedb.org/t/p/original///${movieDetails.data.poster_path}` +
                     ")",
-                }}
+                } : {backgroundImage:
+                    "url(" +
+                    `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7MIFyyHI37_Zt-rcG3udAQkvkvg60miBzJA&usqp=CAU` +
+                    ")"}}
               ></div>
             </Col>
             <Col>
@@ -111,30 +124,19 @@ const MovieDetail = () => {
           </Row>
         </Container>
       ) : (
-        <div>안나왕 ㅠ</div>
+        <div>*** 오류 발생 ***</div>
       )}
-      <Container className="review-container">
-        <button className="review-btn" onClick={()=>hi()}>
-          Review
+      <Container className="detail-more-container">
+        <button className="review-btn" onClick={()=>componentChoice("review")}>
+          Review ({movieReviews.data?.results.length})
         </button>
-        <button className="related-btn">
+        <button className="related-btn" onClick={()=>componentChoice("related")}>
           Related
         </button>
-        {movieReviews.data ?
-        <div className="reviews">
-          {movieReviews.data.results.map((review, index) => (
-            // {console.log(review)}
-            <div className="review-card" key={index}>
-              <div className="author">「{review.author}」</div>
-              <div className="review-content">{review.content}</div>
-              <div className="review-date">Date {review.updated_at.substr(0,10)}</div>
-            </div>
-          ))}
-        </div> :
-        <div>
-          리뷰도 안나왕 ㅠ
-        </div>
-        }
+        {component && 
+        <div className="detail-more-content">
+          {selectComponent[component]}
+        </div>}
       </Container>
     </div>
   );

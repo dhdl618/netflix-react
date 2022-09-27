@@ -44,16 +44,22 @@ function getDetailMovie(id) {
             
             const movieDetailApi = api.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`)
             const movieReviewsApi = api.get(`/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`)
-            let data = await Promise.all([movieDetailApi, movieReviewsApi])
+            const movieRelatedApi = api.get(`/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US`)
+            const genreApi = api.get(`/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+
+            let data = await Promise.all([movieDetailApi, movieReviewsApi, movieRelatedApi, genreApi])
             
-            let [movieDetails, movieReviews] = data
+            let [movieDetails, movieReviews, movieRelated, genreList] = data
             
             dispatch(movieActions.getMovieDetails({movieDetails}))
             dispatch(movieActions.getMovieReviews({movieReviews}))
+            dispatch(movieActions.getMovieRelated({movieRelated}))
+            dispatch(movieActions.getGenreList({genreList}))
             
             dispatch(movieActions.endLoadingSpinner())
-            console.log("movieActions.js",movieDetails)
+            // console.log("movieActions.js",movieDetails)
             console.log("리뷰", movieReviews)
+            console.log("관련", movieRelated)
 
         } catch (e) {
             dispatch(movieActions.getMoviesFailure())

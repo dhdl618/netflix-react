@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Banner = ({movie}) => {
-    console.log("무비는",movie)
+    // console.log("무비는",movie)
   return (
     <div className='banner' style={{backgroundImage: "url("+`https://www.themoviedb.org/t/p/original///${movie.backdrop_path}`+")", backgroundPosition: "center center"}}>
       <div className='banner-info'>

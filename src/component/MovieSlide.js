@@ -11,7 +11,7 @@ const responsive = {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5
+      items: 4
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -26,9 +26,9 @@ const responsive = {
 const MovieSlide = ({ movies }) => {
   return (
     <div className="card-slide">
-      <Carousel responsive={responsive}>
-        {movies &&
-          movies.data.results.map((item, index) => (
+      {movies && movies.data.results[0] ? (
+        <Carousel responsive={responsive}>
+          {movies.data.results.map((item, index) => (
             <MovieCard
               key={index}
               item={item}
@@ -38,7 +38,12 @@ const MovieSlide = ({ movies }) => {
               }}
             />
           ))}
-      </Carousel>
+        </Carousel>
+      ) : (
+        <div className='no-related'>
+          No Related Movies
+        </div>
+      )}
     </div>
   );
 };

@@ -12,6 +12,9 @@ body{
   text-align: center;
   padding-bottom: 100px;
 }
+.navbar-container{
+  z-index: 5000;
+}
 .nav-item {
   color: white;
   text-decoration: none;
@@ -20,7 +23,7 @@ body{
   font-family: 'Poppins', sans-serif;
 }
 .nav-item:hover {
-  color: rgb(214, 23, 23);
+  color: #DC3545;
 }
 
 .banner{
@@ -35,7 +38,7 @@ body{
   position: absolute;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 95vh;
   content: '';
   background: linear-gradient(to top, black, transparent);
 }
@@ -90,6 +93,9 @@ body{
   line-height: 1.5;
   z-index: 1;
 }
+.card:hover {
+  cursor: pointer;
+}
 .card:hover .card-img{
   margin-top: 10px;
 }
@@ -117,12 +123,17 @@ body{
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
 }
+.poster-area{
+  display: flex;
+  justify-content: center;
+}
 .poster{
-  width: 550px;
+  width: 90%;
   height: 850px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;
+  margin-bottom: 30px;
 }
 .detail-content{
   font-family: 'Poppins', sans-serif;
@@ -197,11 +208,24 @@ body{
 .trailer{
   margin-top: 30px;
 }
-.review-container {
+.detail-more-container {
   font-family: 'Poppins', sans-serif;
-  padding: 10px 10px 50px 10px;
+  padding: 10px 10px 100px 10px;
 }
-.review-container button {
+.review-container{
+
+}
+.related-container{
+  padding: 50px 0px 30px 0px;
+  height: 500px;
+}
+.related-container .card {
+  height: 500px !important;
+}
+.review-btn {
+  margin-right: 10px;
+}
+.review-btn, .related-btn {
   background-color: black;
   border: 2px solid pink;
   color: white;
@@ -219,10 +243,13 @@ body{
   background-color: rgb(255, 224, 229);
   color: black;
 }
-.reviews{
-  border: 5px double rgb(255, 228, 233);
+/* .review-btn:focus, .related-btn:focus::after {
+  background-color: black;
+  color: white;
+} */
+/* .reviews{
   padding: 10px;
-}
+} */
 .review-card{
   border-bottom: 1px solid gray;
   padding: 10px 10px 30px 10px;
@@ -244,14 +271,81 @@ body{
   text-underline-position: under;
   color: gray;
 }
-
-
-
-
-
+.no-review{
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: rgb(255, 228, 233, 0.6);
+  font-weight: 100;
+  font-size: 20px;
+}
+.no-related{
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: rgb(255, 228, 233, 0.6);
+  font-weight: 100;
+  font-size: 20px;
+  
+}
+.detail-more-content{
+  border: 5px double rgb(255, 228, 233);
+  padding: 10px;
+}
+.detail-more-container .badge-style {
+  font-size: 10px;
+}
+.detail-more-container .card {
+  margin-bottom: 50px;
+}
+.detail-more-container .badge-area{
+  margin-bottom: 15px;
+}
 .footer {
   border-top: 1px solid rgb(90, 90, 90);
   padding: 20px 0px;
   text-align: center;
   color: gray;
+}
+
+/* 슬라이드 화살표 */
+.related-container .react-multiple-carousel__arrow{
+  top: 200px;
+}
+
+/* 네비게이션 인풋창 */
+.form-control {
+  background-color: black !important;
+  border: 1px #DC3545 solid !important;
+  font-family: 'Poppins', sans-serif;
+  color: rgb(170, 170, 170) !important;
+}
+.btn {
+  font-family: 'Poppins', sans-serif !important;
+  color: white !important;
+}
+.btn:hover {
+  color: #DC3545 !important;
+  background-color: black !important;
+}
+
+@media (max-width: 450px) {
+  .overview {
+    text-align: center;
+  }
+  .detail-info div{
+    margin-left: 55px;
+  }
+  .detail-more-container{
+    text-align: center;
+  }
+  .detail-more-content {
+    text-align: start;
+  }
+
+  .review-btn, .related-btn {
+    width: 150px;
+    height: 45px;
+    font-size: 18px;
+  }
 }
