@@ -2,11 +2,12 @@ import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Badge } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Reviews from "../component/Reviews";
 import MovieSlide from "../component/MovieSlide";
+import Trailer from "../component/Trailer";
 // import api from "../redux/api";
 // import axios from "axios";
 
@@ -16,6 +17,8 @@ const MovieDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [component, setComponent] = useState();
+
+  const [modalShow, setModalShow] = useState(false);
   
   const componentChoice = (e) => {
     let name = e
@@ -33,7 +36,7 @@ const MovieDetail = () => {
 
   // console.log(id);
 
-  const { movieDetails, movieReviews, movieRelated, loading } = useSelector((state) => state.movies);
+  const { movieDetails, movieReviews, movieRelated, loading, movieTrailer } = useSelector((state) => state.movies);
   // const movieDetails = state.movies.movieDetails
   // const loading = state.movies.loading;
 
@@ -61,15 +64,21 @@ const MovieDetail = () => {
             <Col lg={6} className="poster-area">
               <div
                 className="poster"
-                style={movieDetails.data.poster_path ? {
-                  backgroundImage:
-                    "url(" +
-                    `https://www.themoviedb.org/t/p/original///${movieDetails.data.poster_path}` +
-                    ")",
-                } : {backgroundImage:
-                    "url(" +
-                    `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7MIFyyHI37_Zt-rcG3udAQkvkvg60miBzJA&usqp=CAU` +
-                    ")"}}
+                style={
+                  movieDetails.data.poster_path
+                    ? {
+                        backgroundImage:
+                          "url(" +
+                          `https://www.themoviedb.org/t/p/original///${movieDetails.data.poster_path}` +
+                          ")",
+                      }
+                    : {
+                        backgroundImage:
+                          "url(" +
+                          `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7MIFyyHI37_Zt-rcG3udAQkvkvg60miBzJA&usqp=CAU` +
+                          ")",
+                      }
+                }
               ></div>
             </Col>
             <Col>
@@ -103,22 +112,32 @@ const MovieDetail = () => {
                 </div>
                 <div className="overview">{movieDetails.data.overview}</div>
                 <div className="detail-info">
-                  <div style={{display: "flex"}}>
+                  <div style={{ display: "flex" }}>
                     <span className="detail-info-span">Revenue</span>
                     <p>$ {movieDetails.data.revenue.toLocaleString()}</p>
                   </div>
-                  <div style={{display: "flex"}}>
+                  <div style={{ display: "flex" }}>
                     <span className="detail-info-span">Running Time</span>
                     <p>{movieDetails.data.runtime} m</p>
                   </div>
-                  <div style={{display: "flex"}}>
+                  <div style={{ display: "flex" }}>
                     <span className="detail-info-span">Release</span>
                     <p>{movieDetails.data.release_date}</p>
                   </div>
                 </div>
+                
                 <div className="trailer">
-                  WATCH TRAILER
+                  <button className="watch-btn" onClick={() => setModalShow(true)}>
+                  ➕ WATCH TRAILER
+                  </button>
+                  <Trailer
+                    show={modalShow}
+                    movieTrailer={movieTrailer.data}
+                    movie={movieDetails.data}
+                    onHide={() => setModalShow(false)}
+                  />
                 </div>
+
               </div>
             </Col>
           </Row>
@@ -127,16 +146,23 @@ const MovieDetail = () => {
         <div>*** 오류 발생 ***</div>
       )}
       <Container className="detail-more-container">
-        <button className="review-btn" onClick={()=>componentChoice("review")}>
+        <button
+          className="review-btn"
+          onClick={() => componentChoice("review")}
+        >
           Review ({movieReviews.data?.results.length})
         </button>
-        <button className="related-btn" onClick={()=>componentChoice("related")}>
+        <button
+          className="related-btn"
+          onClick={() => componentChoice("related")}
+        >
           Related
         </button>
-        {component && 
-        <div className="detail-more-content">
-          {selectComponent[component]}
-        </div>}
+        {component && (
+          <div className="detail-more-content">
+            {selectComponent[component]}
+          </div>
+        )}
       </Container>
     </div>
   );

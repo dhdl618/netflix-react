@@ -8,7 +8,8 @@ let initialState = {
     genreList: [],
     movieDetails: {},
     movieReviews: {},
-    movieRelated: {}
+    movieRelated: {},
+    movieTrailer: {}
 }
 
 const movieSlice = createSlice({
@@ -40,6 +41,9 @@ const movieSlice = createSlice({
         },
         getMovieRelated(state, action) {
             state.movieRelated = action.payload.movieRelated
+        },
+        getMovieTrailer(state, action) {
+            state.movieTrailer = action.payload.movieTrailer
         }
     }
 })

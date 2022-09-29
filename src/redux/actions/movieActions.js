@@ -46,15 +46,17 @@ function getDetailMovie(id) {
             const movieReviewsApi = api.get(`/movie/${id}/reviews?api_key=${API_KEY}&language=en-US&page=1`)
             const movieRelatedApi = api.get(`/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US`)
             const genreApi = api.get(`/genre/movie/list?api_key=${API_KEY}&language=en-US`)
+            const movieTrailerApi = api.get(`/movie/${id}/videos?api_key=${API_KEY}&language=en-US`)
 
-            let data = await Promise.all([movieDetailApi, movieReviewsApi, movieRelatedApi, genreApi])
+            let data = await Promise.all([movieDetailApi, movieReviewsApi, movieRelatedApi, genreApi, movieTrailerApi])
             
-            let [movieDetails, movieReviews, movieRelated, genreList] = data
+            let [movieDetails, movieReviews, movieRelated, genreList, movieTrailer] = data
             
             dispatch(movieActions.getMovieDetails({movieDetails}))
             dispatch(movieActions.getMovieReviews({movieReviews}))
             dispatch(movieActions.getMovieRelated({movieRelated}))
             dispatch(movieActions.getGenreList({genreList}))
+            dispatch(movieActions.getMovieTrailer({movieTrailer}))
             
             dispatch(movieActions.endLoadingSpinner())
             // console.log("movieActions.js",movieDetails)
