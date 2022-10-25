@@ -92,7 +92,7 @@ const MovieDetail = () => {
                 </div>
 
                 <div style={{ color: "white" }}>
-                  <h1>{movieDetails.data.title}</h1>
+                  <h1 className="detail-title">{movieDetails.data.title}</h1>
                 </div>
                 <div className="tagline">
                   <h2>{movieDetails.data.tagline}</h2>
