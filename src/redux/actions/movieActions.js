@@ -70,5 +70,26 @@ function getDetailMovie(id) {
     }
 }
 
+function getSearchMovies(keyword) {
+    return async(dispatch) => {
+        try {
+            dispatch(movieActions.startLoadingSpinner())
 
-export const movieAction = {getMovies, getDetailMovie}
+            const searchMoviesApi = api.get(`/search/movie?api_key=${API_KEY}&query=${keyword}`)
+            
+            let data = await Promise.all([searchMoviesApi])
+            let [searchMovies] = data
+
+            dispatch(movieActions.getSearchMovies({searchMovies}))
+
+            dispatch(movieActions.endLoadingSpinner())
+
+        } catch (e) {
+            dispatch(movieActions.getMoviesFailure())
+            console.log("Error 발생")
+        }
+    }
+}
+
+
+export const movieAction = {getMovies, getDetailMovie, getSearchMovies}

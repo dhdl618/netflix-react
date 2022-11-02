@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col} from "react-bootstrap";
 import { Badge } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import Reviews from "../component/Reviews";

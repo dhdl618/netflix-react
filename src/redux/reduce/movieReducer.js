@@ -9,7 +9,8 @@ let initialState = {
     movieDetails: {},
     movieReviews: {},
     movieRelated: {},
-    movieTrailer: {}
+    movieTrailer: {},
+    searchMovies: {}
 }
 
 const movieSlice = createSlice({
@@ -44,6 +45,9 @@ const movieSlice = createSlice({
         },
         getMovieTrailer(state, action) {
             state.movieTrailer = action.payload.movieTrailer
+        },
+        getSearchMovies(state, action) {
+            state.searchMovies = action.payload.searchMovies
         }
     }
 })

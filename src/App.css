@@ -25,6 +25,36 @@ body{
 .nav-item:hover {
   color: #DC3545;
 }
+.nav-input {
+  background-color: black;
+  border: #DC3545 2px solid;
+  height: 35px;
+  width: 400px;
+  border-radius: 15px;
+  margin-right: 20px;
+  padding-left: 10px;
+  color: white;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+}
+.nav-input:focus {
+  outline: none;
+}
+.nav-btn {
+  height: 35px;
+  border: 2px solid #DC3545;
+  border-radius: 15px;
+  background-color: black;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  transition: 0.2s;
+}
+.nav-btn:hover {
+  background-color: #DC3545;
+}
 
 .banner{
   height: 95vh;
@@ -277,6 +307,10 @@ body{
   padding: 1px 5px;
   cursor: pointer;
 }
+span.more-btn {
+  background-color: rgb(50, 50, 50);
+  color: rgb(255, 185, 197);
+}
 .review-date {
   text-decoration: underline overline rgb(255, 185, 197) 1px;
   text-underline-position: under;
@@ -384,6 +418,58 @@ body{
 }
 .close-btn:hover {
   color: rgb(65, 65, 65);
+}
+
+/* movies 창 */
+.movies-page {
+  margin-top: 50px;
+}
+.movies-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.movies-container .mvs-card {
+  width: 350px;
+}
+.mvs-card{
+  cursor: pointer;
+  background-color: rgb(0, 0, 0) !important;
+  border: 1px solid gray;
+  border-radius: 15px;
+  box-shadow: 10px 15px 20px rgb(49, 49, 49);
+  height: auto !important;
+  margin: 0px 10px 50px 10px;
+  --bs-card-border-width: 5px !important;
+  --bs-card-border-color: black !important;
+  --bs-card-border-radius: 15px !important;
+}
+.mvs-card-img{
+  margin-top: 20px;
+  height: 190px !important;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+.mvs-overlay{
+  background-color: rgb(0, 0, 0);
+  margin-top: 30px;
+  margin-bottom: 15px;
+  /* position: absolute; */
+  padding: 10px 0px 0px 20px;
+  vertical-align: bottom;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+}
+
+.test {
+  border: 2px solid gray;
+  box-shadow: 0px 0px 20px gray;
+  width: 100%;
+  height: 100vh;
 }
 
 

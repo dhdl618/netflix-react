@@ -28,7 +28,7 @@ const EachReview = ({review, height}) => {
               {review.content}
             </p>
             {height > 62 ? 
-                (<span onClick={appear}>{moreText ? "...▲" : "...▼"}</span>) 
+                (<span className={moreText ? "more-btn" : ""} onClick={appear}>{moreText ? "...▲" : "...▼"}</span>) 
                 : null
             }
           </div>

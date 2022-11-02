@@ -1,8 +1,26 @@
-import React from 'react'
-import {Button, Nav, Navbar, Container, Form} from 'react-bootstrap';
+import React, {useState} from 'react'
+import {Nav, Navbar, Container} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
 
 const NavBar = () => {
+
+    const navigate = useNavigate()
+    const [keyword, setKeyword] = useState("")
+
+    const handleChange = ({target : {value}}) => {
+        // console.log("쓰는 값은?", value)
+        setKeyword(value)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        navigate(`/movies?query=${keyword}`)
+    }
+    // console.log("나올까요??", getMovies)
+    
   return (
     <div className='navbar-container'>
         <Navbar bg="black" variant='dark' expand="lg">
@@ -22,15 +40,12 @@ const NavBar = () => {
                     <Link to="/" className="nav-item">Home</Link>
                     <Link to="/movies" className="nav-item">Movies</Link>
                     </Nav>
-                    <Form className="d-flex">
-                        <Form.Control
-                        type="search"
-                        placeholder="Search"
-                        className="me-2"
-                        aria-label="Search"
-                        />
-                        <Button variant="outline-danger">Search</Button>
-                    </Form>
+                    
+                    <form onSubmit={handleSubmit}>
+                        <input className='nav-input' type="keyword" onChange={handleChange}></input>
+                        <button className='nav-btn' type='submit'>search</button>
+                    </form>
+
                 </Navbar.Collapse>
             </Container>
         </Navbar>
