@@ -42,7 +42,7 @@ const NavBar = () => {
                     </Nav>
                     
                     <form onSubmit={handleSubmit}>
-                        <input className='nav-input' type="keyword" onChange={handleChange}></input>
+                        <input placeholder='Search movies' className='nav-input' type="keyword" onChange={handleChange}></input>
                         <button className='nav-btn' type='submit'>search</button>
                     </form>
 

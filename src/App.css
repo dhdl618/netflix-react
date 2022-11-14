@@ -39,6 +39,11 @@ body{
   font-weight: 400;
   letter-spacing: 1.2px;
 }
+.nav-input::placeholder {
+  color: rgb(139, 139, 139);
+  filter: brightness(0.5);
+  font-size: 13px;
+}
 .nav-input:focus {
   outline: none;
 }
@@ -472,6 +477,32 @@ span.more-btn {
   height: 100vh;
 }
 
+/* 페이지네이션 */
+.page-btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px 30px 0px;
+}
+.page-btn-container button {
+  background-color: black;
+  color: white;
+  border: 2px solid rgb(255, 185, 197);
+  width: 30px;
+  height: 25px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+.page-btn-container button {
+  margin-right: 5px;
+  text-align: center;
+  padding: 0px;
+  font-size: 14px
+}
+.page-btn-container button:hover {
+  background-color: rgb(255, 185, 197);
+  color: black;
+  border: none;
+}
 
 @media (max-width: 1370px) {
   .banner p {

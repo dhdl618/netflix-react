@@ -7,16 +7,16 @@ import api from "../api"
 import { movieActions } from "../reduce/movieReducer"
 
 const API_KEY=process.env.REACT_APP_API_KEY
-function getMovies() {
+function getMovies(pageNum) {
     return async(dispatch)=>{
         try {
             dispatch(movieActions.startLoadingSpinner())
             
-            const popularMovieApi = api.get(`/movie/popular?api_key=${API_KEY}&language=en-US&page=1`)
+            const popularMovieApi = api.get(`/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNum}`)
             
-            const topRatedApi = api.get(`/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`)
+            const topRatedApi = api.get(`/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${pageNum}`)
 
-            const upcomingApi = api.get(`/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`)
+            const upcomingApi = api.get(`/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${pageNum}`)
         
             const genreApi = api.get(`/genre/movie/list?api_key=${API_KEY}&language=en-US`)
             // 각각의 api 호출을 동시에 진행 시킴 (각각에 await을 쓸 필요 없음)
@@ -70,12 +70,12 @@ function getDetailMovie(id) {
     }
 }
 
-function getSearchMovies(keyword) {
+function getSearchMovies(keyword, pageNum) {
     return async(dispatch) => {
         try {
             dispatch(movieActions.startLoadingSpinner())
 
-            const searchMoviesApi = api.get(`/search/movie?api_key=${API_KEY}&query=${keyword}`)
+            const searchMoviesApi = api.get(`/search/movie?api_key=${API_KEY}&query=${keyword}&page=${pageNum}`)
             
             let data = await Promise.all([searchMoviesApi])
             let [searchMovies] = data
