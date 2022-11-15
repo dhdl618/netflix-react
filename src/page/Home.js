@@ -10,7 +10,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(movieAction.getMovies());
+    dispatch(movieAction.getMovies(1));
   }, []);
 
   const state = useSelector((state) => state.movies);
@@ -19,7 +19,7 @@ const Home = () => {
   const upcomingMovies = state.upcomingMovies;
   const loading = state.loading;
 
-  // console.log(popularMovies, topRatedMovies, upcomingMovies)
+  console.log(popularMovies, topRatedMovies, upcomingMovies)
 
   //로딩이 true면 스피너를 보여주고 false면 데이터를 보여줌
   if (loading) {
