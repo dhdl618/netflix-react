@@ -504,6 +504,44 @@ span.more-btn {
   border: none;
 }
 
+/* 정렬 창 */
+.sort-headline {
+  margin: 30px auto;
+  text-align: center;
+  color: rgb(200, 200, 200, 0.7);
+  font-size: 25px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+}
+.sort-btn-area {
+  text-align: center;
+}
+.sort-btn-area button {
+  border: 2px solid #DC3545;
+  margin: 5px;
+  border-radius: 15px;
+  width: 140px;
+  height: 35px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background-color: black;
+  letter-spacing: 0.3px;
+  transition: 0.2s;
+}
+.sort-btn-area button:hover {
+  background-color: #DC3545;
+}
+.sort-btn-area button:focus {
+  background-color: #DC3545;
+}
+.sorting-option-display {
+  margin: 15px auto;
+  text-align: center;
+  color: rgb(255, 255, 255, 0.5);
+}
+
 @media (max-width: 1370px) {
   .banner p {
     padding-top: 250px;

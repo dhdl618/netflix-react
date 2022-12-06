@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../component/Card";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import { movieAction } from "../redux/actions/movieActions";
 import Spinner from "react-bootstrap/Spinner";
 import { useSearchParams } from "react-router-dom";
+import Sort from "../component/Sort";
 
 const Movies = () => {
   const state = useSelector((state) => state.movies);
+  console.log("스테이트 상태", state);
+
   const dispatch = useDispatch();
   const [query, setQuery] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
+  // const [sortingType, setSortingType] = useState("popularity desc");
 
   let searchQuery = query.get("query");
   console.log("쿼리", searchQuery);
@@ -32,6 +36,22 @@ const Movies = () => {
   }
 
   console.log("카드", movies);
+
+  const sortOption = state?.sortingWords;
+  console.log("정렬 옵션은 뭔가욥", sortOption);
+  let optionNum;
+
+  if (sortOption === "popularity desc") {
+    optionNum = 1;
+  } else if (sortOption === "popularity asc") {
+    optionNum = 2;
+  } else if (sortOption === "newest desc") {
+    optionNum = 3;
+  } else if (sortOption === "newest asc") {
+    optionNum = 4;
+  } else {
+    optionNum = 0;
+  }
 
   // 페이지네이션
   let totalPages = movies?.total_pages > 50 ? 50 : movies?.total_pages;
@@ -108,12 +128,32 @@ const Movies = () => {
     <div className="movies-page">
       <Container>
         <Row>
-          <Col lg={4} className="test"></Col>
+          <Col lg={4} className="test">
+            <Sort movies={movies} />
+          </Col>
           <Col lg={8}>
             <div className="movies-container">
-              {movies?.results.map((item, index) => (
-                <Card item={item} key={index} />
-              ))}
+              {optionNum === 1
+                ? state?.popularDesc.map((item, index) => (
+                    <Card item={item} key={index} />
+                  ))
+                : optionNum === 2
+                ? state?.popularAsc.map((item, index) => (
+                    <Card item={item} key={index} />
+                  ))
+                : optionNum === 3
+                ? state?.newestDesc.map((item, index) => (
+                    <Card item={item} key={index} />
+                  ))
+                : optionNum === 4
+                ? state?.newestAsc.map((item, index) => (
+                    <Card item={item} key={index} />
+                  ))
+                : optionNum === 0
+                ? movies?.results.map((item, index) => (
+                    <Card item={item} key={index} />
+                  ))
+                : console.log("Error 발생")}
             </div>
           </Col>
         </Row>

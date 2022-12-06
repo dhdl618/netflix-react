@@ -11,6 +11,11 @@ let initialState = {
   movieRelated: {},
   movieTrailer: {},
   searchMovies: {},
+  popularAsc: {},
+  popularDesc: {},
+  newestAsc: {},
+  newestDesc: {},
+  sortingWords: "",
 };
 
 const movieSlice = createSlice({
@@ -48,6 +53,22 @@ const movieSlice = createSlice({
     },
     getSearchMovies(state, action) {
       state.searchMovies = action.payload.searchMovies;
+    },
+    getPopularAscMovies(state, action) {
+      state.popularAsc = action.payload.popularAsc;
+    },
+    getPopularDescMovies(state, action) {
+      state.popularDesc = action.payload.popularDesc;
+    },
+    getNewestAscMovies(state, action) {
+      state.newestAsc = action.payload.newestAsc;
+    },
+    getNewestDescMovies(state, action) {
+      state.newestDesc = action.payload.newestDesc;
+    },
+    getSortingKeyword(state, action) {
+      state.sortingWords = action.payload.sortingWords;
+      console.log("리덕스에서알립니다", action.payload.sortingWords);
     },
   },
 });

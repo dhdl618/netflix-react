@@ -124,8 +124,38 @@ function getSearchMovies(keyword, pageNum) {
   };
 }
 
+function sortingMovies(popularAsc, popularDesc, newestAsc, newestDesc) {
+  return async (dispatch) => {
+    try {
+      console.log("미들웨어에는 도착을 했나요?", popularAsc, newestAsc);
+      dispatch(movieActions.getPopularAscMovies({ popularAsc }));
+      dispatch(movieActions.getPopularDescMovies({ popularDesc }));
+      dispatch(movieActions.getNewestAscMovies({ newestAsc }));
+      dispatch(movieActions.getNewestDescMovies({ newestDesc }));
+      // console.log("액션에서 알립니다", newestAsc);
+    } catch (e) {
+      dispatch(movieActions.getMoviesFailure());
+      console.log("Error 발생");
+    }
+  };
+}
+
+function sortingKeyword(sortingWords) {
+  return (dispatch) => {
+    try {
+      console.log("이거맞냐고", sortingWords);
+      dispatch(movieActions.getSortingKeyword({ sortingWords }));
+    } catch (e) {
+      dispatch(movieActions.getMoviesFailure());
+      console.log("Error 발생");
+    }
+  };
+}
+
 export const movieAction = {
   getMovies,
   getDetailMovie,
   getSearchMovies,
+  sortingMovies,
+  sortingKeyword,
 };
