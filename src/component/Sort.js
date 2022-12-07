@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
 import { Navigate, useNavigate } from "react-router-dom";
 import { movieActions } from "../redux/reduce/movieReducer";
-import InputRange from "react-input-range";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
@@ -70,9 +69,9 @@ const Sort = ({ movies }) => {
       let minValue = parseInt(rangeInput[0].value);
       let maxValue = parseInt(rangeInput[1].value);
 
-      let a = (minValue / rangeInput[0].max) * 100 + "%";
-      rangeBar.style.right = 100 - maxValue / rangeInput[1].max + "%";
-      console.log(a, "그리고", maxValue);
+      rangeBar.style.left = ((minValue - 1989) / (rangeInput[0].max - 1989)) * 100 + "%";
+      rangeBar.style.right = 100 - ((maxValue - 1989) / (rangeInput[1].max - 1989) * 100) + "%";
+      console.log(minValue, "그리고");
     });
   });
 
@@ -103,6 +102,8 @@ const Sort = ({ movies }) => {
               className="range-min"
               min={1990}
               max={2022}
+              step={1}
+              defaultValue={1990}
               onChange={(e) => {
                 setMinYearValue(e.target.value);
               }}
@@ -113,33 +114,12 @@ const Sort = ({ movies }) => {
               min={1990}
               max={2022}
               step={1}
+              defaultValue={2022}
               onChange={(e) => {
                 setMaxYearValue(e.target.value);
               }}
             ></input>
           </div>
-          {/* <input
-            className="left-slidebar"
-            type="range"
-            min={1990}
-            max={2022}
-            color="gray"
-            step={1}
-            onChange={(e) => {
-              setYearValue(e.target.value);
-            }}
-          ></input>
-          <input
-            className="right-slidebar"
-            type="range"
-            min={1990}
-            max={2022}
-            color="gray"
-            step={1}
-            onChange={(e) => {
-              setYearValue(e.target.value);
-            }}
-          ></input> */}
         </div>
         <div className="year-sorting-display">
           <h2>{minYearValue}</h2>

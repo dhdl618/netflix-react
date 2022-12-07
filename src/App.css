@@ -570,8 +570,8 @@ span.more-btn {
   height: 5px;
   position: absolute;
   border-radius: 15px;
-  left: 25%;
-  right: 25%;
+  left: 1%;
+  right: 1%;
 }
 .range-input {
   position: relative;
