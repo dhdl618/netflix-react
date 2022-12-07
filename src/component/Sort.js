@@ -4,9 +4,12 @@ import { useDispatch } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
 import { Navigate, useNavigate } from "react-router-dom";
 import { movieActions } from "../redux/reduce/movieReducer";
+import InputRange from "react-input-range";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
+  const [minYearValue, setMinYearValue] = useState(1990);
+  const [maxYearValue, setMaxYearValue] = useState(2022);
   const dispatch = useDispatch();
   // const [sortWords, setSortWords] = useState();
 
@@ -59,34 +62,91 @@ const Sort = ({ movies }) => {
     setSortingOption(sortingWords);
   };
 
+  const rangeInput = document.querySelectorAll(".range-input input");
+  const rangeBar = document.querySelector(".range-bar .range-bar-inner");
+
+  rangeInput.forEach((input) => {
+    input.addEventListener("input", () => {
+      let minValue = parseInt(rangeInput[0].value);
+      let maxValue = parseInt(rangeInput[1].value);
+
+      let a = (minValue / rangeInput[0].max) * 100 + "%";
+      rangeBar.style.right = 100 - maxValue / rangeInput[1].max + "%";
+      console.log(a, "그리고", maxValue);
+    });
+  });
+
   return (
     <div>
-      <div className="sort-headline">
-        <p>-Sorting Option-</p>
+      <div className="popular-newest-sorting-area">
+        <div className="pop-new-sort-option">
+          <p>-Sorting Option-</p>
+        </div>
+        <div className="pop-new-sort-btn-area">
+          <button onClick={sortingResult}>Popularity Desc</button>
+          <button onClick={sortingResult}>Popularity Asc</button>
+          <button onClick={sortingResult}>Newest Desc</button>
+          <button onClick={sortingResult}>Newest Asc</button>
+        </div>
+        <div className="pop-new-sorting-option-display">
+          <p>Now sorting : {sortingOption}</p>
+        </div>
       </div>
-      <div className="sort-btn-area">
-        <button onClick={sortingResult}>Popularity Desc</button>
-        <button onClick={sortingResult}>Popularity Asc</button>
-        <button onClick={sortingResult}>Newest Desc</button>
-        <button onClick={sortingResult}>Newest Asc</button>
+      <div className="year-sorting-area">
+        <div className="range-bar">
+          <div className="range-bar-inner"></div>
+        </div>
+        <div className="year-sorting-slide">
+          <div className="range-input">
+            <input
+              type="range"
+              className="range-min"
+              min={1990}
+              max={2022}
+              onChange={(e) => {
+                setMinYearValue(e.target.value);
+              }}
+            ></input>
+            <input
+              type="range"
+              className="range-max"
+              min={1990}
+              max={2022}
+              step={1}
+              onChange={(e) => {
+                setMaxYearValue(e.target.value);
+              }}
+            ></input>
+          </div>
+          {/* <input
+            className="left-slidebar"
+            type="range"
+            min={1990}
+            max={2022}
+            color="gray"
+            step={1}
+            onChange={(e) => {
+              setYearValue(e.target.value);
+            }}
+          ></input>
+          <input
+            className="right-slidebar"
+            type="range"
+            min={1990}
+            max={2022}
+            color="gray"
+            step={1}
+            onChange={(e) => {
+              setYearValue(e.target.value);
+            }}
+          ></input> */}
+        </div>
+        <div className="year-sorting-display">
+          <h2>{minYearValue}</h2>
+          <p>&nbsp;&nbsp;to&nbsp;&nbsp;</p>
+          <h2>{maxYearValue}</h2>
+        </div>
       </div>
-      <div className="sorting-option-display">
-        <p>Now sorting : {sortingOption}</p>
-      </div>
-
-      {/* <Dropdown>
-        <Dropdown.Toggle
-          variant="success"
-          id="dropdown-basic"
-        ></Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={sortingResult}>Popularity Desc</Dropdown.Item>
-          <Dropdown.Item onClick={sortingResult}>Popularity Asc</Dropdown.Item>
-          <Dropdown.Item onClick={sortingResult}>Newest Desc</Dropdown.Item>
-          <Dropdown.Item onClick={sortingResult}>Newest Asc</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown> */}
     </div>
   );
 };
