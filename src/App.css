@@ -440,7 +440,7 @@ span.more-btn {
 .mvs-card{
   cursor: pointer;
   background-color: rgb(0, 0, 0) !important;
-  border: 1px solid gray;
+  border: 3px solid gray;
   border-radius: 15px;
   box-shadow: 10px 15px 20px rgb(49, 49, 49);
   height: auto !important;
@@ -471,10 +471,10 @@ span.more-btn {
 }
 
 .test {
-  border: 2px solid gray;
-  box-shadow: 0px 0px 20px gray;
+  border: 3px solid gray;
+  border-radius: 15px;
   width: 100%;
-  height: 100vh;
+  height: 1100px;
 }
 
 /* 페이지네이션 */
@@ -505,7 +505,7 @@ span.more-btn {
 }
 
 /* 정렬 창 */
-.pop-new-sort-option {
+.pop-new-sort-header, .year-sort-header, .genre-sort-header {
   margin: 30px auto;
   text-align: center;
   color: rgb(200, 200, 200, 0.7);
@@ -539,8 +539,8 @@ span.more-btn {
 .pop-new-sorting-option-display {
   text-align: center;
   color: rgb(255, 255, 255, 0.5);
-  border-bottom: 1px solid gray;
-  margin: 15px 30px 0px 30px;
+  border-bottom: 10px dashed rgb(50, 50, 50);
+  margin: 15px 10px 0px 10px;
   padding-bottom: 15px;
 }
 .year-sorting-area {
@@ -570,8 +570,8 @@ span.more-btn {
   height: 5px;
   position: absolute;
   border-radius: 15px;
-  left: 1%;
-  right: 1%;
+  left: 1px;
+  right: 1px;
 }
 .range-input {
   position: relative;
@@ -593,6 +593,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 15px;
   cursor: pointer;
   pointer-events: auto;
+  box-shadow: 0px 0px 7px black;
 }
 input[type=range]::-moz-range-thumb {
   -moz-appearance: none;
@@ -603,6 +604,7 @@ input[type=range]::-moz-range-thumb {
   border-radius: 15px;
   cursor: pointer;
   pointer-events: auto;
+  box-shadow: 0px 0px 7px black;
 }
 
 .left-slidebar{
@@ -627,14 +629,43 @@ input[type=range]::-moz-range-thumb {
 .year-sorting-display {
   color: white;
   font-size: 18px;
-  margin-top: 40px;
   font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
+  margin: 40px 10px 0px 10px;
+  padding-bottom: 30px;
+  border-bottom: 10px dashed rgb(50, 50, 50);
 }
 .year-sorting-display p {
   padding-top: 7px;
 }
+
+/* .genre-sorting-area{
+  margin: 0px 40px;
+} */
+.genre-sort-header {
+  margin-top: 50px;
+}
+.genre-sorting-btn {
+  /* text-align: center; */
+  /* margin: 0px 40px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; */
+}
+.genre-sorting-btn button {
+  border: 2px solid #DC3545;
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  width: 140px;
+  height: 35px;
+  margin: 5px;
+}
+
 
 @media (max-width: 1370px) {
   .banner p {

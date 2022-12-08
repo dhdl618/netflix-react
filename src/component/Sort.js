@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
 import { Navigate, useNavigate } from "react-router-dom";
 import { movieActions } from "../redux/reduce/movieReducer";
@@ -10,7 +10,9 @@ const Sort = ({ movies }) => {
   const [minYearValue, setMinYearValue] = useState(1990);
   const [maxYearValue, setMaxYearValue] = useState(2022);
   const dispatch = useDispatch();
+  const genreList = useSelector((state) => state.movies.genreList);
   // const [sortWords, setSortWords] = useState();
+  console.log("장르리스트", genreList);
 
   useEffect(() => {
     // 대중성 오름차순
@@ -61,25 +63,36 @@ const Sort = ({ movies }) => {
     setSortingOption(sortingWords);
   };
 
+  // 년도별 정렬 슬라이드바
   const rangeInput = document.querySelectorAll(".range-input input");
   const rangeBar = document.querySelector(".range-bar .range-bar-inner");
+  let yearGap = 1;
 
   rangeInput.forEach((input) => {
-    input.addEventListener("input", () => {
+    input.addEventListener("input", (e) => {
       let minValue = parseInt(rangeInput[0].value);
       let maxValue = parseInt(rangeInput[1].value);
 
-      rangeBar.style.left = ((minValue - 1989) / (rangeInput[0].max - 1989)) * 100 + "%";
-      rangeBar.style.right = 100 - ((maxValue - 1989) / (rangeInput[1].max - 1989) * 100) + "%";
-      console.log(minValue, "그리고");
+      if (maxValue - minValue < yearGap) {
+        if (e.target.className === "range-min") {
+          rangeInput[0].value = maxValue - yearGap;
+        } else {
+          rangeInput[1].value = minValue + yearGap;
+        }
+      } else {
+        rangeBar.style.left =
+          ((minValue - 1990) / (rangeInput[0].max - 1990)) * 100 + "%";
+        rangeBar.style.right =
+          100 - ((maxValue - 1990) / (rangeInput[1].max - 1990)) * 100 + "%";
+      }
     });
   });
 
   return (
     <div>
       <div className="popular-newest-sorting-area">
-        <div className="pop-new-sort-option">
-          <p>-Sorting Option-</p>
+        <div className="pop-new-sort-header">
+          <p>Sorting Option</p>
         </div>
         <div className="pop-new-sort-btn-area">
           <button onClick={sortingResult}>Popularity Desc</button>
@@ -92,6 +105,9 @@ const Sort = ({ movies }) => {
         </div>
       </div>
       <div className="year-sorting-area">
+        <div className="year-sort-header">
+          <p>Sorting by Year</p>
+        </div>
         <div className="range-bar">
           <div className="range-bar-inner"></div>
         </div>
@@ -125,6 +141,16 @@ const Sort = ({ movies }) => {
           <h2>{minYearValue}</h2>
           <p>&nbsp;&nbsp;to&nbsp;&nbsp;</p>
           <h2>{maxYearValue}</h2>
+        </div>
+      </div>
+      <div className="genre-sorting-area">
+        <div className="genre-sort-header">
+          <p>Sorting by Genre</p>
+        </div>
+        <div className="genre-sorting-btn">
+          {genreList?.map((item, index) => (
+            <button key={index}>{item.name}</button>
+          ))}
         </div>
       </div>
     </div>
