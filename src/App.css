@@ -533,8 +533,8 @@ span.more-btn {
 .pop-new-sort-btn-area button:hover {
   background-color: #DC3545;
 }
-.pop-new-sort-btn-area button:focus {
-  background-color: #DC3545;
+.clicked {
+  background-color: #DC3545 !important;
 }
 .pop-new-sorting-option-display {
   text-align: center;
@@ -548,16 +548,6 @@ span.more-btn {
   margin-top: 50px;
   width: 100%;
 }
-.year-sorting-slide {
-  /* position: absolute; */
-}
-/* .year-sorting-slide input[type=range] {
-  -webkit-appearance: none;
-  background-color: #DC3545;
-  border-radius: 15px;
-  height: 8px;
-  width: 300px;
-} */
 
 .range-bar {
   height: 5px;
@@ -615,17 +605,7 @@ input[type=range]::-moz-range-thumb {
   position: absolute;
   margin-left: 15px;
 }
-/* input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance: none;
-  border: 1px solid yellow;
-  width: 15px;
-  height: 30px;
-  background-color: yellow;
-  cursor: pointer;
-  border-radius: 3px;
-  box-shadow: 0px 0px 15px black;
-  z-index: 1;
-} */
+
 .year-sorting-display {
   color: white;
   font-size: 18px;
@@ -640,20 +620,18 @@ input[type=range]::-moz-range-thumb {
   padding-top: 7px;
 }
 
-/* .genre-sorting-area{
-  margin: 0px 40px;
-} */
+.genre-sorting-area{
+  width: 100%;
+  margin: auto;
+}
 .genre-sort-header {
   margin-top: 50px;
 }
 .genre-sorting-btn {
-  /* text-align: center; */
-  /* margin: 0px 40px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap; */
+  width: 300px;
+  margin: auto;
 }
-.genre-sorting-btn button {
+.genre-sort-btns {
   border: 2px solid #DC3545;
   background-color: black;
   color: white;
@@ -664,8 +642,11 @@ input[type=range]::-moz-range-thumb {
   width: 140px;
   height: 35px;
   margin: 5px;
+  transition: 0.2s;
 }
-
+.genre-sort-btns:hover {
+  background-color: #DC3545;
+}
 
 @media (max-width: 1370px) {
   .banner p {

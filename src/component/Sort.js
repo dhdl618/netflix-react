@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { movieAction } from "../redux/actions/movieActions";
-import { Navigate, useNavigate } from "react-router-dom";
-import { movieActions } from "../redux/reduce/movieReducer";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
@@ -12,7 +9,7 @@ const Sort = ({ movies }) => {
   const dispatch = useDispatch();
   const genreList = useSelector((state) => state.movies.genreList);
   // const [sortWords, setSortWords] = useState();
-  console.log("장르리스트", genreList);
+  // console.log("장르리스트", genreList);
 
   useEffect(() => {
     // 대중성 오름차순
@@ -49,9 +46,23 @@ const Sort = ({ movies }) => {
 
   // console.log("대중성 정렬값", popularityAsc);
 
-  // console.log("기본 정렬값", movies.results);
+  console.log("기본 정렬값", movies?.results);
+  const buttonClicked = document.getElementsByClassName("pop-new-sort-btns");
 
-  const sortingResult = (event) => {
+  const handleClicked = (event) => {
+    if (event.target.classList[1] === "clicked") {
+      event.target.classList.remove("clicked");
+    } else {
+      for (let i = 0; i < buttonClicked.length; i++) {
+        buttonClicked[i].classList.remove("clicked");
+      }
+      event.target.classList.add("clicked");
+    }
+
+    console.log("확인용", event.target.classList);
+  };
+
+  const sortingByDescAsc = (event) => {
     event.preventDefault();
 
     let sortingWords = event.target.innerHTML;
@@ -61,6 +72,14 @@ const Sort = ({ movies }) => {
     dispatch(movieAction.sortingKeyword(sortingWords.toLowerCase()));
 
     setSortingOption(sortingWords);
+
+    handleClicked(event);
+  };
+
+  const sortingByGenre = (event) => {
+    event.preventDefault();
+
+    handleClicked(event);
   };
 
   // 년도별 정렬 슬라이드바
@@ -88,6 +107,36 @@ const Sort = ({ movies }) => {
     });
   });
 
+  let movieTitle = [];
+
+  const filteringYear = () => {
+    console.log(rangeInput[0].value, " 과 ", rangeInput[1].value, " 사이");
+    movieTitle.splice(0);
+    console.log("for문 전 배열", movieTitle);
+    for (let i = 0; i < movies.results.length; i++) {
+      if (
+        rangeInput[0].value <=
+        movies.results[i].release_date.split("-")[0] <=
+        rangeInput[1].value
+      ) {
+        movieTitle.push(movies.results[i].title);
+      }
+    }
+
+    console.log("for문 이후의 배열", movieTitle);
+
+    // if (movies?.results[9].release_date.split("-")[0] === rangeInput[1].value) {
+    //   console.log(
+    //     movies.results[9].release_date.split("-")[0],
+    //     "년 맞습니다",
+    //     rangeInput[1].value
+    //   );
+    // } else {
+    //   console.log("2022년이 아니에여 ㅠㅠ", rangeInput[1].value);
+    // }
+    // console.log("날짜", movies?.results[9].release_date.split("-")[0]);
+  };
+
   return (
     <div>
       <div className="popular-newest-sorting-area">
@@ -95,10 +144,18 @@ const Sort = ({ movies }) => {
           <p>Sorting Option</p>
         </div>
         <div className="pop-new-sort-btn-area">
-          <button onClick={sortingResult}>Popularity Desc</button>
-          <button onClick={sortingResult}>Popularity Asc</button>
-          <button onClick={sortingResult}>Newest Desc</button>
-          <button onClick={sortingResult}>Newest Asc</button>
+          <button className="pop-new-sort-btns" onClick={sortingByDescAsc}>
+            Popularity Desc
+          </button>
+          <button className="pop-new-sort-btns" onClick={sortingByDescAsc}>
+            Popularity Asc
+          </button>
+          <button className="pop-new-sort-btns" onClick={sortingByDescAsc}>
+            Newest Desc
+          </button>
+          <button className="pop-new-sort-btns" onClick={sortingByDescAsc}>
+            Newest Asc
+          </button>
         </div>
         <div className="pop-new-sorting-option-display">
           <p>Now sorting : {sortingOption}</p>
@@ -122,6 +179,7 @@ const Sort = ({ movies }) => {
               defaultValue={1990}
               onChange={(e) => {
                 setMinYearValue(e.target.value);
+                filteringYear();
               }}
             ></input>
             <input
@@ -133,6 +191,7 @@ const Sort = ({ movies }) => {
               defaultValue={2022}
               onChange={(e) => {
                 setMaxYearValue(e.target.value);
+                filteringYear();
               }}
             ></input>
           </div>
@@ -149,7 +208,13 @@ const Sort = ({ movies }) => {
         </div>
         <div className="genre-sorting-btn">
           {genreList?.map((item, index) => (
-            <button key={index}>{item.name}</button>
+            <button
+              className="genre-sort-btns"
+              onClick={sortingByGenre}
+              key={index}
+            >
+              {item.name}
+            </button>
           ))}
         </div>
       </div>
