@@ -4,7 +4,7 @@ import { movieAction } from "../redux/actions/movieActions";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
-  const [minYearValue, setMinYearValue] = useState(1990);
+  const [minYearValue, setMinYearValue] = useState(1930);
   const [maxYearValue, setMaxYearValue] = useState(2022);
   const dispatch = useDispatch();
   const genreList = useSelector((state) => state.movies.genreList);
@@ -35,33 +35,9 @@ const Sort = ({ movies }) => {
     dispatch(
       movieAction.sortingMovies(popularAsc, popularDesc, newestAsc, newestDesc)
     );
-
-    // console.log("날짜별로 나오나요?", newestAsc);
-    // console.log("파퓰러 낮은순으로", popularAsc);
-    // console.log(movies?.results[0].release_date);
-    // console.log(new Date(movies?.results[0].release_date));
   }, []);
 
-  // let sorting = movies?.results.sort((a, b) => a.popularity - b.popularity);
-
-  // console.log("대중성 정렬값", popularityAsc);
-
-  console.log("기본 정렬값", movies?.results);
-  const buttonClicked = document.getElementsByClassName("pop-new-sort-btns");
-
-  const handleClicked = (event) => {
-    if (event.target.classList[1] === "clicked") {
-      event.target.classList.remove("clicked");
-    } else {
-      for (let i = 0; i < buttonClicked.length; i++) {
-        buttonClicked[i].classList.remove("clicked");
-      }
-      event.target.classList.add("clicked");
-    }
-
-    console.log("확인용", event.target.classList);
-  };
-
+  // 대중성, 최신순 정렬 버튼
   const sortingByDescAsc = (event) => {
     event.preventDefault();
 
@@ -72,12 +48,6 @@ const Sort = ({ movies }) => {
     dispatch(movieAction.sortingKeyword(sortingWords.toLowerCase()));
 
     setSortingOption(sortingWords);
-
-    handleClicked(event);
-  };
-
-  const sortingByGenre = (event) => {
-    event.preventDefault();
 
     handleClicked(event);
   };
@@ -100,41 +70,69 @@ const Sort = ({ movies }) => {
         }
       } else {
         rangeBar.style.left =
-          ((minValue - 1990) / (rangeInput[0].max - 1990)) * 100 + "%";
+          ((minValue - 1930) / (rangeInput[0].max - 1930)) * 100 + "%";
         rangeBar.style.right =
-          100 - ((maxValue - 1990) / (rangeInput[1].max - 1990)) * 100 + "%";
+          100 - ((maxValue - 1930) / (rangeInput[1].max - 1930)) * 100 + "%";
       }
     });
   });
 
-  let movieTitle = [];
-
+  // 년도별 정렬 슬라이드 변화를 감지하여 값 디스패치
   const filteringYear = () => {
     console.log(rangeInput[0].value, " 과 ", rangeInput[1].value, " 사이");
-    movieTitle.splice(0);
-    console.log("for문 전 배열", movieTitle);
-    for (let i = 0; i < movies.results.length; i++) {
-      if (
-        rangeInput[0].value <=
-        movies.results[i].release_date.split("-")[0] <=
-        rangeInput[1].value
-      ) {
-        movieTitle.push(movies.results[i].title);
+
+    dispatch(
+      movieAction.sortingByYear(
+        Number(rangeInput[0].value),
+        Number(rangeInput[1].value)
+      )
+    );
+  };
+
+  // 장르별 정렬 버튼
+  let genreClicked = [];
+
+  const sortingByGenre = (event) => {
+    event.preventDefault();
+
+    let genre = event.target.innerHTML;
+
+    console.log("클릭 값", genre);
+
+    if (genreClicked.length > 0) {
+      if (genreClicked.includes(genre)) {
+        genreClicked.splice(genreClicked.indexOf(genre), 1);
+      } else {
+        genreClicked.push(genre);
       }
+    } else {
+      genreClicked.push(genre);
     }
 
-    console.log("for문 이후의 배열", movieTitle);
+    console.log("배열 확인", genreClicked);
 
-    // if (movies?.results[9].release_date.split("-")[0] === rangeInput[1].value) {
-    //   console.log(
-    //     movies.results[9].release_date.split("-")[0],
-    //     "년 맞습니다",
-    //     rangeInput[1].value
-    //   );
-    // } else {
-    //   console.log("2022년이 아니에여 ㅠㅠ", rangeInput[1].value);
-    // }
-    // console.log("날짜", movies?.results[9].release_date.split("-")[0]);
+    handleClicked(event);
+  };
+
+  const submitGenre = () => {
+    dispatch(movieAction.sortingByGenre(genreClicked));
+    console.log("디스패치 이후", genreClicked);
+  };
+
+  // 정렬 버튼 클릭 시, css 추가
+  const buttonClicked = document.getElementsByClassName("pop-new-sort-btns");
+
+  const handleClicked = (event) => {
+    if (event.target.classList[1] === "clicked") {
+      event.target.classList.remove("clicked");
+    } else {
+      for (let i = 0; i < buttonClicked.length; i++) {
+        buttonClicked[i].classList.remove("clicked");
+      }
+      event.target.classList.add("clicked");
+    }
+
+    // console.log("확인용", event.target.classList);
   };
 
   return (
@@ -173,10 +171,10 @@ const Sort = ({ movies }) => {
             <input
               type="range"
               className="range-min"
-              min={1990}
+              min={1930}
               max={2022}
               step={1}
-              defaultValue={1990}
+              defaultValue={1930}
               onChange={(e) => {
                 setMinYearValue(e.target.value);
                 filteringYear();
@@ -185,7 +183,7 @@ const Sort = ({ movies }) => {
             <input
               type="range"
               className="range-max"
-              min={1990}
+              min={1930}
               max={2022}
               step={1}
               defaultValue={2022}
@@ -216,6 +214,9 @@ const Sort = ({ movies }) => {
               {item.name}
             </button>
           ))}
+        </div>
+        <div>
+          <button onClick={submitGenre}>result</button>
         </div>
       </div>
     </div>

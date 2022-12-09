@@ -111,7 +111,7 @@ const Movies = () => {
     lastPage = totalPages;
   }
 
-  console.log(totalPages);
+  // console.log(totalPages);
 
   const loading = state.loading;
 
@@ -124,6 +124,8 @@ const Movies = () => {
     );
   }
 
+  console.log("현재 옵션 넘버", optionNum);
+
   return (
     <div className="movies-page">
       <Container>
@@ -134,25 +136,55 @@ const Movies = () => {
           <Col lg={8}>
             <div className="movies-container">
               {optionNum === 1
-                ? state?.popularDesc.map((item, index) => (
-                    <Card item={item} key={index} />
-                  ))
+                ? state?.popularDesc
+                    .filter(
+                      (item) =>
+                        state.minYear <=
+                          Number(item.release_date?.split("-")[0]) &&
+                        Number(item.release_date?.split("-")[0]) <=
+                          state.maxYear
+                    )
+                    .map((item, index) => <Card item={item} key={index} />)
                 : optionNum === 2
-                ? state?.popularAsc.map((item, index) => (
-                    <Card item={item} key={index} />
-                  ))
+                ? state?.popularAsc
+                    .filter(
+                      (item) =>
+                        state.minYear <=
+                          Number(item.release_date?.split("-")[0]) &&
+                        Number(item.release_date?.split("-")[0]) <=
+                          state.maxYear
+                    )
+                    .map((item, index) => <Card item={item} key={index} />)
                 : optionNum === 3
-                ? state?.newestDesc.map((item, index) => (
-                    <Card item={item} key={index} />
-                  ))
+                ? state?.newestDesc
+                    .filter(
+                      (item) =>
+                        state.minYear <=
+                          Number(item.release_date?.split("-")[0]) &&
+                        Number(item.release_date?.split("-")[0]) <=
+                          state.maxYear
+                    )
+                    .map((item, index) => <Card item={item} key={index} />)
                 : optionNum === 4
-                ? state?.newestAsc.map((item, index) => (
-                    <Card item={item} key={index} />
-                  ))
+                ? state?.newestAsc
+                    .filter(
+                      (item) =>
+                        state.minYear <=
+                          Number(item.release_date?.split("-")[0]) &&
+                        Number(item.release_date?.split("-")[0]) <=
+                          state.maxYear
+                    )
+                    .map((item, index) => <Card item={item} key={index} />)
                 : optionNum === 0
-                ? movies?.results.map((item, index) => (
-                    <Card item={item} key={index} />
-                  ))
+                ? movies?.results
+                    .filter(
+                      (item) =>
+                        state.minYear <=
+                          Number(item.release_date?.split("-")[0]) &&
+                        Number(item.release_date?.split("-")[0]) <=
+                          state.maxYear
+                    )
+                    .map((item, index) => <Card item={item} key={index} />)
                 : console.log("Error 발생")}
             </div>
           </Col>

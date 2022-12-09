@@ -16,6 +16,9 @@ let initialState = {
   newestAsc: {},
   newestDesc: {},
   sortingWords: "",
+  minYear: 1930,
+  maxYear: 2022,
+  sortingGenre: [],
 };
 
 const movieSlice = createSlice({
@@ -69,6 +72,18 @@ const movieSlice = createSlice({
     getSortingKeyword(state, action) {
       state.sortingWords = action.payload.sortingWords;
       console.log("리덕스에서알립니다", action.payload.sortingWords);
+    },
+    setMinYear(state, action) {
+      state.minYear = action.payload.minYear;
+      console.log("Min 값 들어왔나요", action.payload.minYear);
+    },
+    setMaxYear(state, action) {
+      state.maxYear = action.payload.maxYear;
+      console.log("Max 값 잘 들어왔나요", action.payload.maxYear);
+    },
+    getSortingByGenre(state, action) {
+      state.sortingGenre = action.payload.genreClicked;
+      console.log("장르 잘 들어왔나요", action.payload.genreClicked);
     },
   },
 });

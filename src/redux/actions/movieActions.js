@@ -152,10 +152,37 @@ function sortingKeyword(sortingWords) {
   };
 }
 
+function sortingByYear(minYear, maxYear) {
+  return (dispatch) => {
+    try {
+      console.log("min값, max값은", minYear, maxYear);
+      dispatch(movieActions.setMinYear({ minYear }));
+      dispatch(movieActions.setMaxYear({ maxYear }));
+    } catch (e) {
+      dispatch(movieActions.getMoviesFailure());
+      console.log("Error 발생");
+    }
+  };
+}
+
+function sortingByGenre(genreClicked) {
+  return (dispatch) => {
+    try {
+      console.log("선택된 장르", genreClicked);
+      dispatch(movieActions.getSortingByGenre({ genreClicked }));
+    } catch (e) {
+      dispatch(movieActions.getMoviesFailure());
+      console.log("Error 발생");
+    }
+  };
+}
+
 export const movieAction = {
   getMovies,
   getDetailMovie,
   getSearchMovies,
   sortingMovies,
   sortingKeyword,
+  sortingByYear,
+  sortingByGenre,
 };
