@@ -16,9 +16,9 @@ let initialState = {
   newestAsc: {},
   newestDesc: {},
   sortingWords: "",
-  minYear: 1930,
-  maxYear: 2022,
-  sortingGenre: [],
+  minYear: "1930",
+  maxYear: "2022",
+  sortingMoviesByGenre: {},
 };
 
 const movieSlice = createSlice({
@@ -82,8 +82,8 @@ const movieSlice = createSlice({
       console.log("Max 값 잘 들어왔나요", action.payload.maxYear);
     },
     getSortingByGenre(state, action) {
-      state.sortingGenre = action.payload.genreClicked;
-      console.log("장르 잘 들어왔나요", action.payload.genreClicked);
+      state.sortingMoviesByGenre = action.payload.sortByGenreClicked;
+      console.log("장르 잘 들어왔나요", action.payload.sortByGenreClicked);
     },
   },
 });

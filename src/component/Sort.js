@@ -4,8 +4,9 @@ import { movieAction } from "../redux/actions/movieActions";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
-  const [minYearValue, setMinYearValue] = useState(1930);
-  const [maxYearValue, setMaxYearValue] = useState(2022);
+  const [minYearValue, setMinYearValue] = useState("1930");
+  const [maxYearValue, setMaxYearValue] = useState("2022");
+  const [genreClicked, setGenreClicked] = useState([]);
   const dispatch = useDispatch();
   const genreList = useSelector((state) => state.movies.genreList);
   // const [sortWords, setSortWords] = useState();
@@ -35,17 +36,33 @@ const Sort = ({ movies }) => {
     dispatch(
       movieAction.sortingMovies(popularAsc, popularDesc, newestAsc, newestDesc)
     );
-  }, []);
+
+    dispatch(
+      movieAction.genreSorting(
+        genreClicked,
+        sortingOption,
+        minYearValue,
+        maxYearValue
+      )
+    );
+  }, [genreClicked, sortingOption, minYearValue, maxYearValue]);
 
   // 대중성, 최신순 정렬 버튼
   const sortingByDescAsc = (event) => {
     event.preventDefault();
 
-    let sortingWords = event.target.innerHTML;
+    let sortingWords = event.target.innerHTML
+      .split(" ")
+      .join(".")
+      .toLowerCase();
+
+    if (sortingWords.includes("newest")) {
+      sortingWords = sortingWords.replace("newest", "release_date");
+    }
+
     console.log("클릭이 되었습니다.", sortingWords);
 
-    // setSortWords(sortingWords);
-    dispatch(movieAction.sortingKeyword(sortingWords.toLowerCase()));
+    // dispatch(movieAction.sortingKeyword(sortingWords.toLowerCase()));
 
     setSortingOption(sortingWords);
 
@@ -81,42 +98,35 @@ const Sort = ({ movies }) => {
   const filteringYear = () => {
     console.log(rangeInput[0].value, " 과 ", rangeInput[1].value, " 사이");
 
-    dispatch(
-      movieAction.sortingByYear(
-        Number(rangeInput[0].value),
-        Number(rangeInput[1].value)
-      )
-    );
+    // dispatch(
+    //   movieAction.sortingByYear(
+    //     Number(rangeInput[0].value),
+    //     Number(rangeInput[1].value)
+    //   )
+    // );
   };
 
   // 장르별 정렬 버튼
-  let genreClicked = [];
-
-  const sortingByGenre = (event) => {
-    event.preventDefault();
-
-    let genre = event.target.innerHTML;
-
-    console.log("클릭 값", genre);
+  const genreApi = (e) => {
+    let genre = e.target.innerHTML;
+    let genreNum = genreList.filter((item) => item.name === genre)[0].id;
+    // console.log("장르넘버왜안떠", genreNum);
 
     if (genreClicked.length > 0) {
-      if (genreClicked.includes(genre)) {
-        genreClicked.splice(genreClicked.indexOf(genre), 1);
+      // console.log("선택된 장르 배열", genreClicked);
+      if (genreClicked.includes(genreNum)) {
+        const newGenreList = genreClicked.filter((item) => item !== genreNum);
+        // console.log("삭제가 후의 배열", newGenreList);
+
+        setGenreClicked(newGenreList);
       } else {
-        genreClicked.push(genre);
+        setGenreClicked([...genreClicked, genreNum]);
       }
     } else {
-      genreClicked.push(genre);
+      setGenreClicked([...genreClicked, genreNum]);
     }
 
-    console.log("배열 확인", genreClicked);
-
-    handleClicked(event);
-  };
-
-  const submitGenre = () => {
-    dispatch(movieAction.sortingByGenre(genreClicked));
-    console.log("디스패치 이후", genreClicked);
+    handleClicked(e);
   };
 
   // 정렬 버튼 클릭 시, css 추가
@@ -206,17 +216,10 @@ const Sort = ({ movies }) => {
         </div>
         <div className="genre-sorting-btn">
           {genreList?.map((item, index) => (
-            <button
-              className="genre-sort-btns"
-              onClick={sortingByGenre}
-              key={index}
-            >
+            <button className="genre-sort-btns" onClick={genreApi} key={index}>
               {item.name}
             </button>
           ))}
-        </div>
-        <div>
-          <button onClick={submitGenre}>result</button>
         </div>
       </div>
     </div>

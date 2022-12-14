@@ -177,6 +177,34 @@ function sortingByGenre(genreClicked) {
   };
 }
 
+function genreSorting(genre, sortBy, releaseDateMin, releaseDateMax) {
+  return async (dispatch) => {
+    try {
+      console.log("받아들인 장르 넘버 값", genre);
+      let genreOption = genre.join();
+      console.log("장르 넘버 합친 값", genreOption);
+      console.log("sort by", sortBy);
+      console.log("release_date Min 값", releaseDateMin);
+      console.log("release_date Max 값", releaseDateMax);
+
+      const sortingByGenreClicked = api.get(
+        // with_genres=27,10749 ... >> ,로 구분함
+        `/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreOption}&sort_by=${sortBy}&release_date.gte=${releaseDateMin}-01-01&release_date.lte=${releaseDateMax}-12-31`
+      );
+
+      let data = await Promise.all([sortingByGenreClicked]);
+      let [sortByGenreClicked] = data;
+
+      console.log("장르 정렬한 결과", sortByGenreClicked);
+
+      dispatch(movieActions.getSortingByGenre({ sortByGenreClicked }));
+    } catch (e) {
+      dispatch(movieActions.getMoviesFailure());
+      console.log("Error 발생");
+    }
+  };
+}
+
 export const movieAction = {
   getMovies,
   getDetailMovie,
@@ -185,4 +213,5 @@ export const movieAction = {
   sortingKeyword,
   sortingByYear,
   sortingByGenre,
+  genreSorting,
 };
