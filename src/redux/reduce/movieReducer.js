@@ -15,10 +15,12 @@ let initialState = {
   popularDesc: {},
   newestAsc: {},
   newestDesc: {},
-  sortingWords: "",
   minYear: "1930",
   maxYear: "2022",
-  sortingMoviesByGenre: {},
+  sortingMoviesByOptions: {},
+  searchingKeywords: "",
+  clickedGenres: "",
+  clickedSortingOption: "",
 };
 
 const movieSlice = createSlice({
@@ -69,10 +71,6 @@ const movieSlice = createSlice({
     getNewestDescMovies(state, action) {
       state.newestDesc = action.payload.newestDesc;
     },
-    getSortingKeyword(state, action) {
-      state.sortingWords = action.payload.sortingWords;
-      console.log("리덕스에서알립니다", action.payload.sortingWords);
-    },
     setMinYear(state, action) {
       state.minYear = action.payload.minYear;
       console.log("Min 값 들어왔나요", action.payload.minYear);
@@ -81,9 +79,23 @@ const movieSlice = createSlice({
       state.maxYear = action.payload.maxYear;
       console.log("Max 값 잘 들어왔나요", action.payload.maxYear);
     },
-    getSortingByGenre(state, action) {
-      state.sortingMoviesByGenre = action.payload.sortByGenreClicked;
-      console.log("장르 잘 들어왔나요", action.payload.sortByGenreClicked);
+    getSortingByOptions(state, action) {
+      state.sortingMoviesByOptions = action.payload.sortByOptions;
+      console.log("장르 잘 들어왔나요", action.payload.sortByOptions);
+    },
+    setSearchingKeywords(state, action) {
+      state.searchingKeywords = action.payload.keyword;
+    },
+    setSortingOption(state, action) {
+      state.clickedSortingOption = action.payload.sortBy;
+      console.log(
+        "정렬 옵션이 state에 들어가있나요",
+        state.clickedSortingOption
+      );
+    },
+    setGenres(state, action) {
+      state.clickedGenres = action.payload.genreOption;
+      console.log("장르가 state에 들어가있나요", state.clickedGenres);
     },
   },
 });

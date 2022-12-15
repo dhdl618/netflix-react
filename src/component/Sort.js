@@ -4,15 +4,19 @@ import { movieAction } from "../redux/actions/movieActions";
 
 const Sort = ({ movies }) => {
   const [sortingOption, setSortingOption] = useState("");
+  const [sendingSortingOption, setSendingSortingOption] =
+    useState("popularity.desc");
   const [minYearValue, setMinYearValue] = useState("1930");
   const [maxYearValue, setMaxYearValue] = useState("2022");
   const [genreClicked, setGenreClicked] = useState([]);
   const dispatch = useDispatch();
   const genreList = useSelector((state) => state.movies.genreList);
+  const keyword = useSelector((state) => state.movies.searchingKeywords);
   // const [sortWords, setSortWords] = useState();
   // console.log("장르리스트", genreList);
 
   useEffect(() => {
+    console.log("키워드는?", keyword);
     // 대중성 오름차순
     const popularAsc = movies?.results
       .slice()
@@ -38,33 +42,33 @@ const Sort = ({ movies }) => {
     );
 
     dispatch(
-      movieAction.genreSorting(
+      movieAction.sortingByOption(
         genreClicked,
-        sortingOption,
+        sendingSortingOption,
         minYearValue,
         maxYearValue
       )
     );
-  }, [genreClicked, sortingOption, minYearValue, maxYearValue]);
+  }, [genreClicked, sendingSortingOption, minYearValue, maxYearValue]);
 
   // 대중성, 최신순 정렬 버튼
   const sortingByDescAsc = (event) => {
     event.preventDefault();
 
-    let sortingWords = event.target.innerHTML
-      .split(" ")
-      .join(".")
-      .toLowerCase();
+    let sortingWords = event.target.innerHTML;
+    let sendingSortingWords = sortingWords.split(" ").join(".").toLowerCase();
 
-    if (sortingWords.includes("newest")) {
-      sortingWords = sortingWords.replace("newest", "release_date");
+    if (sendingSortingWords.includes("newest")) {
+      sendingSortingWords = sendingSortingWords.replace(
+        "newest",
+        "release_date"
+      );
     }
 
-    console.log("클릭이 되었습니다.", sortingWords);
-
-    // dispatch(movieAction.sortingKeyword(sortingWords.toLowerCase()));
+    console.log("클릭이 되었습니다.", sendingSortingWords);
 
     setSortingOption(sortingWords);
+    setSendingSortingOption(sendingSortingWords);
 
     handleClicked(event);
   };
@@ -98,12 +102,7 @@ const Sort = ({ movies }) => {
   const filteringYear = () => {
     console.log(rangeInput[0].value, " 과 ", rangeInput[1].value, " 사이");
 
-    // dispatch(
-    //   movieAction.sortingByYear(
-    //     Number(rangeInput[0].value),
-    //     Number(rangeInput[1].value)
-    //   )
-    // );
+    dispatch(movieAction.setYear(rangeInput[0].value, rangeInput[1].value));
   };
 
   // 장르별 정렬 버튼

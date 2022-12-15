@@ -20,13 +20,13 @@ const NavBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    dispatch(movieActions.setSearchingKeywords({ keyword }));
     navigate(`/movies?query=${keyword}`);
   };
   // console.log("나올까요??", getMovies)
 
   const init = () => {
     dispatch(movieActions.getSortingKeyword({}));
-    dispatch(movieAction.sortingByYear(1930, 2022));
 
     window.location.replace("/movies");
   };

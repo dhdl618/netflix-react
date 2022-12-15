@@ -140,19 +140,7 @@ function sortingMovies(popularAsc, popularDesc, newestAsc, newestDesc) {
   };
 }
 
-function sortingKeyword(sortingWords) {
-  return (dispatch) => {
-    try {
-      console.log("이거맞냐고", sortingWords);
-      dispatch(movieActions.getSortingKeyword({ sortingWords }));
-    } catch (e) {
-      dispatch(movieActions.getMoviesFailure());
-      console.log("Error 발생");
-    }
-  };
-}
-
-function sortingByYear(minYear, maxYear) {
+function setYear(minYear, maxYear) {
   return (dispatch) => {
     try {
       console.log("min값, max값은", minYear, maxYear);
@@ -177,27 +165,38 @@ function sortingByGenre(genreClicked) {
   };
 }
 
-function genreSorting(genre, sortBy, releaseDateMin, releaseDateMax) {
+function sortingByOption(
+  genre,
+  sortBy,
+  releaseDateMin,
+  releaseDateMax,
+  pageNum
+) {
   return async (dispatch) => {
     try {
       console.log("받아들인 장르 넘버 값", genre);
-      let genreOption = genre.join();
+      let genreOption = genre.join("|");
       console.log("장르 넘버 합친 값", genreOption);
       console.log("sort by", sortBy);
       console.log("release_date Min 값", releaseDateMin);
       console.log("release_date Max 값", releaseDateMax);
+      console.log("pageNum 값", pageNum);
+      // console.log("keyword 값", keyword);
 
-      const sortingByGenreClicked = api.get(
-        // with_genres=27,10749 ... >> ,로 구분함
-        `/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreOption}&sort_by=${sortBy}&release_date.gte=${releaseDateMin}-01-01&release_date.lte=${releaseDateMax}-12-31`
+      dispatch(movieActions.setSortingOption({ sortBy }));
+      dispatch(movieActions.setGenres({ genreOption }));
+
+      const sortingByOptions = api.get(
+        // with_genres=27,10749 ...  ,로 구분 >> 27,10749 둘 다 포함하는 영화,  with_genres=27|10749 ...  |로 구분 >> 27을 포함하거나 10749를 포함하는 영화
+        `/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreOption}&sort_by=${sortBy}&release_date.gte=${releaseDateMin}-01-01&release_date.lte=${releaseDateMax}-12-31&page=${pageNum}`
       );
 
-      let data = await Promise.all([sortingByGenreClicked]);
-      let [sortByGenreClicked] = data;
+      let data = await Promise.all([sortingByOptions]);
+      let [sortByOptions] = data;
 
-      console.log("장르 정렬한 결과", sortByGenreClicked);
+      console.log("장르 정렬한 결과", sortByOptions);
 
-      dispatch(movieActions.getSortingByGenre({ sortByGenreClicked }));
+      dispatch(movieActions.getSortingByOptions({ sortByOptions }));
     } catch (e) {
       dispatch(movieActions.getMoviesFailure());
       console.log("Error 발생");
@@ -205,13 +204,40 @@ function genreSorting(genre, sortBy, releaseDateMin, releaseDateMax) {
   };
 }
 
+// 키워드 아이디 가져오기
+
+// function getKeywordsIDs() {
+//   return async (dispatch) => {
+//     try {
+//       let date = new Date();
+//       let year = date.getFullYear();
+//       let month = date.getMonth() + 1;
+//       let day = date.getDate();
+
+//       if (month < 10) {
+//         month = `0${date.getMonth() + 1}`;
+//       }
+
+//       const IDdataAPI = axios.get(
+//         `http://files.tmdb.org/p/exports/keyword_ids_${month}_${day}_${year}.json.gz`
+//       );
+//       let data = await Promise.all([IDdataAPI]);
+//       let [IDdata] = data;
+
+//       console.log("키워드 id 값 결과", IDdata);
+//     } catch (e) {
+//       dispatch(movieActions.getMoviesFailure());
+//       console.log("Error 발생");
+//     }
+//   };
+// }
+
 export const movieAction = {
   getMovies,
   getDetailMovie,
   getSearchMovies,
   sortingMovies,
-  sortingKeyword,
-  sortingByYear,
+  setYear,
   sortingByGenre,
-  genreSorting,
+  sortingByOption,
 };

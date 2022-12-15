@@ -31,23 +31,25 @@ const Movies = () => {
 
   if (searchQuery) {
     movies = state?.searchMovies.data;
+  } else if (state.clickedGenres || state.clickedSortingOption) {
+    movies = state?.sortingMoviesByOptions.data;
   } else {
     movies = state?.popularMovies.data;
   }
 
   console.log("카드", movies);
 
-  const sortOption = state?.sortingWords;
+  const sortOption = state?.clickedSortingOption;
   console.log("정렬 옵션은 뭔가욥", sortOption);
   let optionNum;
 
-  if (sortOption === "popularity desc") {
+  if (sortOption === "popularity.desc") {
     optionNum = 1;
-  } else if (sortOption === "popularity asc") {
+  } else if (sortOption === "popularity.asc") {
     optionNum = 2;
-  } else if (sortOption === "newest desc") {
+  } else if (sortOption === "release_date.desc") {
     optionNum = 3;
-  } else if (sortOption === "newest asc") {
+  } else if (sortOption === "release_date.asc") {
     optionNum = 4;
   } else {
     optionNum = 0;
